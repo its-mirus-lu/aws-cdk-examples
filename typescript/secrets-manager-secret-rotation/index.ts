@@ -33,6 +33,14 @@ export class SecretsManagerCustomRotationStack extends cdk.Stack {
       ]
     });
 
+    const elasticache_vpc_endpoint = vpc.addInterfaceEndpoint('ElastiCacheEndpoint', {
+      service: new ec2.InterfaceVpcEndpointAwsService('amazonaws.com', 'elasticache'),
+      privateDnsEnabled: false,
+      // subnets: {
+      //   subnetType: ec2.SubnetType.ISOLATED,
+      // }
+    });
+
     const secretsManagerEndpoint = vpc.addInterfaceEndpoint('SecretsManagerEndpoint', {
       service: ec2.InterfaceVpcEndpointAwsService.SECRETS_MANAGER,
       subnets: {
